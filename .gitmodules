@@ -1,0 +1,12 @@
+[submodule "git@personal:gmcastil/dot-files.git"]
+	path = git@personal:gmcastil/dot-files.git
+	url = git@personal:gmcastil/vimrc.git
+[submodule "vimrc"]
+	path = vimrc
+	url = git@personal:gmcastil/vimrc
+[submodule "dot-files"]
+	path = dot-files
+	url = git@personal:gmcastil/dot-files
+[submodule "scripts"]
+	path = scripts
+	url = git@personal:gmcastil/scripts
