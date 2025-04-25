@@ -9,9 +9,11 @@ all: submodules $(REPOS)
 submodules:
 	git submodule update --init --recursive
 
-update:
+refresh:
 	git pull --recurse-submodules
 	git submodule update --remote --merge
+	@git status
+	@printf '%s\n' "If submodules changed, commit with: git add <submodule> && git commit"
 
 # Rely on each submodule to contains its own Makefile for installing and setting up
 # and then also for cleaning things up.
