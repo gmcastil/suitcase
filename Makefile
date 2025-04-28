@@ -21,7 +21,7 @@ $(REPOS):
 	$(MAKE) -C $@
 
 clean:
-	for repo in $(REPOS); do \
+	@for repo in $(REPOS); do \
 		$(MAKE) -C $${repo} clean; \
 	done
 
