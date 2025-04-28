@@ -1,6 +1,6 @@
+SHELL		:= /bin/bash
 # Submodules containing the actual components we bring with us
 REPOS		:= dot-files scripts vimrc
-
 
 .PHONY: all submodules update setup
 .PHONY: $(REPOS)
@@ -18,7 +18,9 @@ refresh:
 	@printf '%s\n' "If submodules changed, commit with: git add <submodule> && git commit"
 
 setup: $(REPOS)
-	@./setup_vivado_boards
+	@if [[ "$(uname -s)" == "Linux" && $(EMBEDDED) -neq 1 ]]; then \
+		./setup_vivado_boards; \
+	fi
 
 # Rely on each submodule to contains its own Makefile for installing and setting up
 # and then also for cleaning things up.
