@@ -6,6 +6,7 @@ REPOS		:= dot-files scripts vimrc
 .PHONY: $(REPOS)
 
 all: submodules
+	$(MAKE) setup
 
 submodules:
 	git submodule update --init --recursive
