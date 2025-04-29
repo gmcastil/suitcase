@@ -1,0 +1,5 @@
+# Ignore the repos we're going to pull down
+dot-files/
+scripts/
+vimrc/
+
