@@ -7,6 +7,7 @@ GITHUB_URL	:= https://github.com/gmcastil
 .PHONY: install $(REPOS) clean
 
 install: $(REPOS)
+	echo hello
 	@if [[ "$(UNAME)" == "Linux" && $(EMBEDDED) -eq 0 ]]; then \
 		./setup_vivado_boards; \
 	fi
@@ -19,5 +20,4 @@ clean:
 	@for repo in $(REPOS); do \
 		$(MAKE) -C $${repo} clean; \
 	done
-	git clean -dfx
 	rm -rf $(REPOS)
