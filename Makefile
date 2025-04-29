@@ -2,8 +2,21 @@ SHELL 			:= /bin/bash
 UNAME 			:= $(shell uname -s)
 
 GITHUB_URL 		:= https://github.com/gmcastil
-REPOS 			:= dot-files scripts vimrc
+PERSONAL_REPOS 		:= dot-files scripts vimrc
 
+# These just need to be installed
+TMUX_PLUGINS_URL	:= https://github.com/tmux-sensible
+TMUX_PLUGINS_DIR	:= $(PWD)../tmux-plugins
+TMUX_PLUGINS_REPO	:= tmux-sensible
+TMUX_PLUGINS_PATH	:= $(TMUX_PLUGINS_DIR)/$(TMUX_PLUGINS_REPO)
+
+# Group repos that we only need to download by their end location
+OTHER_REPOS		:= $(TMUX_PLUGINS_PATH)
+
+# Embedded boards don't need these, but Linux systems for development that run
+# Vivado need board files to be installed, so we pull them down here (the
+# Vivado init configuration files will specify these locations as board files
+# in the board repo paths)
 AVNET_URL 		:= https://github.com/Avnet
 AVNET_REPO 		:= bdf
 DIGILENT_URL 		:= https://github.com/Digilent
@@ -15,15 +28,22 @@ DIGILENT_DIR 		:= $(PWD)/../Digilent
 AVNET_REPO_PATH 	:= $(AVNET_DIR)/$(AVNET_REPO)
 DIGILENT_REPO_PATH 	:= $(DIGILENT_DIR)/$(DIGILENT_REPO)
 
-SPECIAL_REPOS 		:= $(AVNET_REPO_PATH) $(DIGILENT_REPO_PATH)
+DEVEL_REPOS 		:= $(AVNET_REPO_PATH) $(DIGILENT_REPO_PATH)
 
+# This is where it's expected that configuration repos will all reside
 GIT_LOCAL_REPOS 	?= $(HOME)/git-local-repos
 
-install: $(REPOS) $(SPECIAL_REPOS)
+install: $(REPOS) $(DEVEL_REPOS)
 
-$(REPOS):
+$(PERSONAL_REPOS):
 	@git clone "$(GITHUB_URL)/$@" || true
 	$(MAKE) -C $@ setup
+
+$(OTHER_REPOS):
+	@git clone $@ || true
+
+$(TMUX_SENSIBLE_PATH):
+	@mkdir -pv "$(TMUX_SENSIBLE_PATH)
 
 $(AVNET_REPO_PATH):
 	@if [[ "$(UNAME)" == "Linux" && "$(EMBEDDED)" -eq 0 ]]; then \
@@ -41,5 +61,4 @@ clean:
 	@for repo in $(REPOS); do \
 		$(MAKE) -C "$$repo" clean; \
 	done
-	rm -rf $(REPOS)
 
